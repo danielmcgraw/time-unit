@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2018"
 license = "MIT"
 description = "A time-unit library"
+keywords = ["unit", "time", "time-unit"]
 repository = "https://github.com/danielmcgraw/time-unit"
 readme = "README.md"
 
