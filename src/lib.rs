@@ -2,6 +2,8 @@ pub mod constants;
 pub mod errors;
 
 use std::str::FromStr;
+use std::fmt;
+
 
 /// The unit of time
 #[derive(Debug, PartialEq)]
@@ -79,6 +81,12 @@ impl FromStr for TimeUnit {
     }
 }
 
+impl fmt::Display for TimeUnit {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -96,6 +104,20 @@ mod tests {
         assert_eq!(TimeUnit::Weeks, TimeUnit::from_str("Weeks").unwrap());
         assert_eq!(TimeUnit::Months, TimeUnit::from_str("Months").unwrap());
         assert_eq!(TimeUnit::Years, TimeUnit::from_str("Years").unwrap());
+    }
+
+    #[test]
+    fn test_to_string() {
+        assert_eq!(String::from("Nanoseconds"), TimeUnit::Nanoseconds.to_string());
+        assert_eq!(String::from("Microseconds"), TimeUnit::Microseconds.to_string());
+        assert_eq!(String::from("Milliseconds"), TimeUnit::Milliseconds.to_string());
+        assert_eq!(String::from("Seconds"), TimeUnit::Seconds.to_string());
+        assert_eq!(String::from("Minutes"), TimeUnit::Minutes.to_string());
+        assert_eq!(String::from("Hours"), TimeUnit::Hours.to_string());
+        assert_eq!(String::from("Days"), TimeUnit::Days.to_string());
+        assert_eq!(String::from("Weeks"), TimeUnit::Weeks.to_string());
+        assert_eq!(String::from("Months"), TimeUnit::Months.to_string());
+        assert_eq!(String::from("Years"), TimeUnit::Years.to_string());
     }
 
     #[test]
