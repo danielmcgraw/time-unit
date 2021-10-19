@@ -75,7 +75,6 @@ impl TimeUnit {
         }
     }
 
-
     /// Get nanoseconds in `TimeUnit`.
     ///
     /// ```
