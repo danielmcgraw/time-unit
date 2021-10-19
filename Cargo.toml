@@ -2,6 +2,10 @@
 name = "time-unit"
 version = "0.1.0"
 edition = "2018"
+license = "MIT"
+description = "A time-unit library"
+repository = "https://github.com/danielmcgraw/time-unit"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
