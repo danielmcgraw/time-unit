@@ -1,6 +1,8 @@
 pub mod constants;
+pub mod errors;
 
 /// The unit of time
+#[derive(Debug, PartialEq)]
 pub enum TimeUnit {
     /// Nanosecond = 1 Nanosecond
     Nanoseconds,
@@ -35,6 +37,63 @@ pub enum TimeUnit {
 
 
 impl TimeUnit {
+
+    /// Get an instance of `TimeUnit` from a string slice.
+    ///
+    /// ```
+    /// extern crate time_unit;
+    ///
+    /// use time_unit::TimeUnit;
+    ///
+    /// assert_eq!(TimeUnit::Nanoseconds, TimeUnit::from_str("").unwrap());
+    /// assert_eq!(TimeUnit::Nanoseconds, TimeUnit::from_str("Nanoseconds").unwrap());
+    /// assert_eq!(TimeUnit::Microseconds, TimeUnit::from_str("Microseconds").unwrap());
+    /// assert_eq!(TimeUnit::Milliseconds, TimeUnit::from_str("Milliseconds").unwrap());
+    /// assert_eq!(TimeUnit::Seconds, TimeUnit::from_str("Seconds").unwrap());
+    /// assert_eq!(TimeUnit::Minutes, TimeUnit::from_str("Minutes").unwrap());
+    /// assert_eq!(TimeUnit::Hours, TimeUnit::from_str("Hours").unwrap());
+    /// assert_eq!(TimeUnit::Days, TimeUnit::from_str("Days").unwrap());
+    /// assert_eq!(TimeUnit::Weeks, TimeUnit::from_str("Weeks").unwrap());
+    /// assert_eq!(TimeUnit::Months, TimeUnit::from_str("Months").unwrap());
+    /// assert_eq!(TimeUnit::Years, TimeUnit::from_str("Years").unwrap());
+    /// ```
+    pub fn from_str<S: AsRef<str>>(unit: S) -> Result<TimeUnit, errors::UnrecognizedUnitError> {
+        let unit_str = unit.as_ref().trim();
+        match unit_str {
+            ""  => Ok(TimeUnit::Nanoseconds),
+            "Nanoseconds"  => Ok(TimeUnit::Nanoseconds),
+            "Microseconds"  => Ok(TimeUnit::Microseconds),
+            "Milliseconds"  => Ok(TimeUnit::Milliseconds),
+            "Seconds"  => Ok(TimeUnit::Seconds),
+            "Minutes"  => Ok(TimeUnit::Minutes),
+            "Hours"  => Ok(TimeUnit::Hours),
+            "Days"  => Ok(TimeUnit::Days),
+            "Weeks"  => Ok(TimeUnit::Weeks),
+            "Months"  => Ok(TimeUnit::Months),
+            "Years"  => Ok(TimeUnit::Years),
+            _ => Err(errors::UnrecognizedUnitError {}),
+        }
+    }
+
+
+    /// Get nanoseconds in `TimeUnit`.
+    ///
+    /// ```
+    /// extern crate time_unit;
+    ///
+    /// use time_unit::TimeUnit;
+    ///
+    /// assert_eq!(TimeUnit::Nanoseconds.get_unit_nanoseconds(), 1);
+    /// assert_eq!(TimeUnit::Microseconds.get_unit_nanoseconds(), 1_000);
+    /// assert_eq!(TimeUnit::Milliseconds.get_unit_nanoseconds(), 1_000_000);
+    /// assert_eq!(TimeUnit::Seconds.get_unit_nanoseconds(), 1_000_000_000);
+    /// assert_eq!(TimeUnit::Minutes.get_unit_nanoseconds(), 60_000_000_000);
+    /// assert_eq!(TimeUnit::Hours.get_unit_nanoseconds(), 3_600_000_000_000);
+    /// assert_eq!(TimeUnit::Days.get_unit_nanoseconds(), 86_400_000_000_000);
+    /// assert_eq!(TimeUnit::Weeks.get_unit_nanoseconds(), 604_800_000_000_000);
+    /// assert_eq!(TimeUnit::Months.get_unit_nanoseconds(), 2_628_000_000_000_000);
+    /// assert_eq!(TimeUnit::Years.get_unit_nanoseconds(), 31_540_000_000_000_000);
+    /// ```
     pub fn get_unit_nanoseconds(self) -> u64 {
         match self {
             TimeUnit::Nanoseconds => constants::u64::NANOSECOND,
@@ -48,61 +107,5 @@ impl TimeUnit {
             TimeUnit::Months => constants::u64::MONTH,
             TimeUnit::Years => constants::u64::YEAR,
         }
-    }
-}
-
-
-#[cfg(test)]
-mod tests {
-    use crate::TimeUnit;
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_nanoseconds() {
-        assert_eq!(TimeUnit::Nanoseconds.get_unit_nanoseconds(), 1);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_microseconds() {
-        assert_eq!(TimeUnit::Microseconds.get_unit_nanoseconds(), 1_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_milliseconds() {
-        assert_eq!(TimeUnit::Milliseconds.get_unit_nanoseconds(), 1_000_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_seconds() {
-        assert_eq!(TimeUnit::Seconds.get_unit_nanoseconds(), 1_000_000_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_minutes() {
-        assert_eq!(TimeUnit::Minutes.get_unit_nanoseconds(), 60_000_000_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_hours() {
-        assert_eq!(TimeUnit::Hours.get_unit_nanoseconds(), 3_600_000_000_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_days() {
-        assert_eq!(TimeUnit::Days.get_unit_nanoseconds(), 86_400_000_000_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_weeks() {
-        assert_eq!(TimeUnit::Weeks.get_unit_nanoseconds(), 604_800_000_000_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_months() {
-        assert_eq!(TimeUnit::Months.get_unit_nanoseconds(), 2_628_000_000_000_000);
-    }
-
-    #[test]
-    fn get_unit_nanoseconds_works_for_years() {
-        assert_eq!(TimeUnit::Years.get_unit_nanoseconds(), 31_540_000_000_000_000);
     }
 }
