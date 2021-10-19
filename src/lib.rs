@@ -4,7 +4,6 @@ pub mod errors;
 use std::str::FromStr;
 use std::fmt;
 
-
 /// The unit of time
 #[derive(Debug, PartialEq)]
 pub enum TimeUnit {
@@ -38,7 +37,6 @@ pub enum TimeUnit {
     /// 1 Year = 3.154e+16 Nanosecondss
     Years,
 }
-
 
 impl TimeUnit {
     /// Get nanoseconds in `TimeUnit`.
