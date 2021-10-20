@@ -1,8 +1,9 @@
 [package]
 name = "time-unit"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2018"
 license = "MIT"
+documentation = "https://docs.rs/time-unit"
 authors = ["Daniel McGraw <dan.j.mcgraw@gmail.com>"]
 description = "A time-unit library"
 keywords = ["unit", "time", "time-unit"]
